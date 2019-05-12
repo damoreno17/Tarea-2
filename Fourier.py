@@ -11,17 +11,17 @@ t_signal= datos_signal[:,0]
 t_sigsum= datos_sigsum[:,0]
 sigsum= datos_sigsum[:,1]
 
-#señalplot
+#senalplot
 
 plt.figure()
 plt.subplot(1,2,1)
-plt.title("Señal a partir de signal.dat")
+plt.title("Senal a partir de signal.dat")
 plt.xlabel("Tiempo (s)")
 plt.ylabel("Amplitud")
 plt.plot(t_signal,signal)
 
 plt.subplot(1,2,2)
-plt.title("Señalæ partir de signalsum.dat")
+plt.title("Senal partir de signalsum.dat")
 plt.xlabel("Tiempo(s)")
 plt.ylabel("Amplitud")
 plt.plot(t_sigsum,sigsum)
@@ -42,7 +42,7 @@ def fourier (N, datos):
 	for m in range(N): 
 		suma = 0
 		for n in range(N): 
-			suma+=((datos[k,1])*(np.exp((-1j * 2 * np.pi * n * (1.0*m/N)))))
+			suma+=((datos[n,1])*(np.exp((-1j * 2 * np.pi * n * (1.0*m/N)))))
 
 		fourie.append(suma)
 	return (fourie)
@@ -61,8 +61,8 @@ print (fourfast)
 #print (len(res),len(res2),len(fftfreq(N,d=dt)))
 
 plt.figure()
-plt.plot(frecuencuia, f_1, label("signal")
-plt.plot(frecuencuia, f_2, label("sigsum"))
+plt.plot(frecuencia, f_1, label=("signal"))
+plt.plot(frecuencia, f_2, label=("sigsum"))
 plt.legend(loc ="best")
 plt.title("fourier Signal")
 plt.xlabel("Frecuencia")
@@ -82,7 +82,7 @@ signaltemblor = temblor [:]
 
 plt.figure()
 plt.plot (signaltemblor)
-plt.title("señal a partir de temblor.tex")
+plt.title("senal a partir de temblor.tex")
 plt.xlabel("tiempo")
 plt.ylabel("amplitud")
 plt.savefig("Temblor.pdf")
@@ -92,7 +92,7 @@ plt.close()
 
 frecuencia_t = fftfreq (N_2, d=0.01)
 plt.figure()
-plt.plot (frecuencia_t, abs(fft (temblor))
+plt.plot (frecuencia_t, abs(fft (temblor)))
 plt.title ( "Fourier temblor" )
 plt.xlabel("Freq (Hz)")
 plt.ylabel("amplitud")
@@ -107,15 +107,15 @@ plt.subplot(2,1,1)
 plt.specgram(signal)
 plt.xlabel("tiempo")
 plt.ylabel("freq. (Hz)")
-plt.title("Señal")
+plt.title("Senal")
 
 plt.title("Espectrograma SigSum")
 plt.subplot(2,1,2)
 plt.specgram(sigsum)
 plt.xlabel("tiempo")
 plt.ylabel("freq. (Hz)")
-plt.title("Señales sumadas")
-plt.savefig("espectrogramas_señales.pdf")
+plt.title("Senales sumadas")
+plt.savefig("espectrogramas_senales.pdf")
 plt.close()
 
 plt.figure()
