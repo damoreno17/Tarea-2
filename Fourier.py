@@ -1,60 +1,127 @@
 import numpy as np
 import matplotlib.pylab as plt
-from scipy.fftpack import *
-##Almacenamiento de datos##
-datos_1 = np.genfromtxt("signalSuma.dat")
-datos_2 = np.genfromtxt("signal.dat")
-#print len(data1[:,1])
-N = 2048
-dt = abs(datos_1[1,0]-datos_2[2,0])
-##subplots con el grafico para cada senal##
+from scipy.fftpack import fft, fftfreq
+#datos
+datos_sigsum = np.genfromtxt("signalSuma.dat")
+datos_signal = np.genfromtxt("signal.dat")
+
+signal= datos_signal[:,1]
+t_signal= datos_signal[:,0]
+
+t_sigsum= datos_sigsum[:,0]
+sigsum= datos_sigsum[:,1]
+
+#señalplot
+
 plt.figure()
-plt.subplot(2,1,1)
-plt.title("signalSuma")
+plt.subplot(1,2,1)
+plt.title("Señal a partir de signal.dat")
+plt.xlabel("Tiempo (s)")
+plt.ylabel("Amplitud")
+plt.plot(t_signal,signal)
+
+plt.subplot(1,2,2)
+plt.title("Señalæ partir de signalsum.dat")
 plt.xlabel("Tiempo(s)")
 plt.ylabel("Amplitud")
-plt.plot(datos_1[:,0],datos_1[:,1])
+plt.plot(t_sigsum,sigsum)
 
-plt.subplot(2,1,2)
-plt.title("signal")
-plt.xlabel("Tiempo(s)")
-plt.ylabel("Amplitud")
-plt.plot(datos_2[:,0],datos_2[:,1])
+plt.savefig("subplot_SignalySignalsum.pdf")
 
-plt.savefig("signal_subplots.pdf")
+plt.close()
 
 
-###fourier
+#trasformada
+
+N=len(t_signal)
+dt = abs(datos_sigsum[1,0]-datos_signal[2,0])
 
 
 def fourier (N, datos):
 	fourie = []
-	for n in range(N): 
+	for m in range(N): 
 		suma = 0
-		for k in range(N): 
-			suma+=((datos[k,1])*(np.exp((-1j * 2 * np.pi * k * (n/N)))))
+		for n in range(N): 
+			suma+=((datos[k,1])*(np.exp((-1j * 2 * np.pi * n * (1.0*m/N)))))
 
 		fourie.append(suma)
 	return (fourie)
 
-f_1= np.asarray(fourier(N, datos_1))
-f_2= np.asarray(fourier(N, datos_2))
+f_1= abs(np.asarray(fourier(N, datos_signal)))
+f_2= abs(np.asarray(fourier(N, datos_sigsum)))
+frecuencia = fftfreq(N, d=dt)
 
+#fourier con fft
+fourfast = np.fft.fft(datos_signal)
+print (fourfast)
 
-#print fftfreq(N,d=dt)
-##graficos de la transformada de Fourier de ambas senales##
+#print fftfreq(N,datos=dt)
+
+#graph fourier
 #print (len(res),len(res2),len(fftfreq(N,d=dt)))
 
 plt.figure()
-plt.plot(f_1)
-#plt.plot(fftfreq(N,d=dt),res2)
-plt.show()
-##espectrograma de las senales##
+plt.plot(frecuencuia, f_1, label("signal")
+plt.plot(frecuencuia, f_2, label("sigsum"))
+plt.legend(loc ="best")
+plt.title("fourier Signal")
+plt.xlabel("Frecuencia")
+plt.ylabel("densidad de Frec.")
+plt.savefig("Fourier_signal.pdf")
+plt.close()
+
+
+
+
+
+#Temblor
+temblor= np.genfromtxt("temblor.tex", skip_header=4)
+N_2=len(temblor)
+
+signaltemblor = temblor [:]
+
 plt.figure()
+plt.plot (signaltemblor)
+plt.title("señal a partir de temblor.tex")
+plt.xlabel("tiempo")
+plt.ylabel("amplitud")
+plt.savefig("Temblor.pdf")
+plt.close()
+
+#fourier temblor
+
+frecuencia_t = fftfreq (N_2, d=0.01)
+plt.figure()
+plt.plot (frecuencia_t, abs(fft (temblor))
+plt.title ( "Fourier temblor" )
+plt.xlabel("Freq (Hz)")
+plt.ylabel("amplitud")
+plt.savefig ("fourier_temblor.pdf")
+plt.close()
+
+#espectrogramas 
+
+plt.figure()
+plt.title("Espectrograma Signal")
 plt.subplot(2,1,1)
-plt.specgram(datos_1[:,1])
+plt.specgram(signal)
+plt.xlabel("tiempo")
+plt.ylabel("freq. (Hz)")
+plt.title("Señal")
 
+plt.title("Espectrograma SigSum")
 plt.subplot(2,1,2)
-plt.specgram(datos_2[:,1])
-#plt.show()
+plt.specgram(sigsum)
+plt.xlabel("tiempo")
+plt.ylabel("freq. (Hz)")
+plt.title("Señales sumadas")
+plt.savefig("espectrogramas_señales.pdf")
+plt.close()
 
+plt.figure()
+plt.specgram(temblor)
+plt.title("Espectrograma del temblor")
+plt.xlabel("tiempo")
+plt.ylabel("freq. (Hz)")
+plt.savefig("espectro_temblor.pdf")
+plt.close()
